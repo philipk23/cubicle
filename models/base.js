@@ -7,7 +7,7 @@ module.exports = class BaseModel {
     constructor(filePath){
         this._filePath = filePath;
         this.entries = require(filePath);
-        const lastEntry = this.entries[this.entries.length];
+        const lastEntry = this.entries[this.entries.length - 1];
         this._lastEntryId = lastEntry ? lastEntry.id : 0;
     }
 
@@ -16,5 +16,14 @@ module.exports = class BaseModel {
         const newEntries = [...this.entries, newEntry];
         return writeFile(this._filePath, JSON.stringify(newEntries, null, 2))
             .then(() => { this.entries = newEntries ;}); 
+    }
+
+    findById(id){
+        const entry = this.entries.find(entry => entry.id === id);
+        return Promise.resolve(entry);
+    }
+
+    getAll(){
+        return Promise.resolve(this.entries);
     }
 }

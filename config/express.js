@@ -5,8 +5,8 @@ const path = require('path');
 module.exports = (app) => {
     app.engine('.hbs', handlebars({extname: '.hbs'}));
     app.set('view engine', '.hbs');
-
-    app.set(express.urlencoded({ extended: true }));
+    //When using middlewares - app.use
+    app.use(express.urlencoded({ extended: true }));
 
     const staticFilePath = path.join(global.__basedir, 'static');
 
