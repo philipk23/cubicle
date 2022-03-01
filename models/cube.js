@@ -1,9 +1,9 @@
 const BaseModel = require('./base');
 const path = require('path');
 
-module.exports = class CubeModel extends BaseModel{
+class CubeModel extends BaseModel{
     constructor(){
-        const filePath = path.resolve('../config/database.json');
+        const filePath = path.join(global.__basedir, '/config/database.json');
         super(filePath);
     }
 
@@ -15,4 +15,6 @@ module.exports = class CubeModel extends BaseModel{
         const entry = this.entries.find(entry => entry.id === id);
         return Promise.resolve(entry);
     }
-}
+};
+
+module.exports = new CubeModel();

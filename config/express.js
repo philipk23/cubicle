@@ -8,7 +8,7 @@ module.exports = (app) => {
 
     app.set(express.urlencoded({ extended: true }));
 
-    const staticFilePath = path.resolve('./static');
+    const staticFilePath = path.join(global.__basedir, 'static');
 
     app.use(express.static(staticFilePath));
 };

@@ -1,7 +1,5 @@
-
+const cubeController = require('../controllers/cube')
 
 module.exports = (app) => {
-    app.get('/', (req, res) => {
-        res.render('index', { layout: false }); 
-    })
+    app.get('/', cubeController.getCubes); 
 };
