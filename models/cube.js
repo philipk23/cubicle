@@ -15,6 +15,16 @@ class CubeModel extends BaseModel{
         const entry = this.entries.find(entry => entry.id === id);
         return Promise.resolve(entry);
     }
+
+    getAll(data){
+        if (!data) { return super.getAll()}
+        const { name, from, to } = data;
+        return super.queryBy(function(entry) {
+            return (name ? entry.name.includes(name) : true) &&
+                (from ? entry.difficultyLevel >= from : true) &&
+                (to ? entry.difficultyLevel <= to : true);
+        })
+    }
 };
 
 module.exports = new CubeModel();

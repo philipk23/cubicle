@@ -2,9 +2,10 @@ const cubeModel = require('../models/cube');
 
 module.exports = {
     getCubes(req, res, next) {
-        cubeModel.getAll()
+        const { search, from, to } = req.query;
+        cubeModel.getAll({ name: search, from: +from, to: +to })
             .then(cubes => {
-                res.render('index', { layout: false, cubes});
+                res.render('index', { layout: false, cubes, search, from, to});
             })
             .catch(next)
     },

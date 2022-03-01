@@ -26,4 +26,8 @@ module.exports = class BaseModel {
     getAll(){
         return Promise.resolve(this.entries);
     }
+
+    queryBy(fn){
+        return Promise.resolve(this.entries.filter(fn));
+    }
 }
