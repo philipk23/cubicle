@@ -4,9 +4,16 @@ module.exports = {
     getCubes(req, res, next) {
         const { search, from, to } = req.query;
         let query = {};
-        if (search) { query.name = search };
-        if (from) { query.from = +from };
-        if (to) { query.to = +to };
+        if (search) { query.name = new RegExp(search, 'i') };
+        if (from) 
+        { 
+            query.difficultyLevel = { $gte: +from };
+        };
+        if (to) 
+        { 
+            query.difficultyLevel = query.difficultyLevel || {};
+            query.difficultyLevel.$lte = +to;
+        };
 
         cubeModel.find(query).then((cubes) => {
             res.render('index', { cubes, search, from, to });
