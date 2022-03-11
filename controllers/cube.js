@@ -14,12 +14,12 @@ module.exports = {
     },
 
     getCube(req, res, next) {
-        // const id = +req.params.id;
-        // cubeModel.findById(id)
-        //     .then(cube => {
-        //         res.render('details', { layout: false, cube });
-        //     })
-        //     .catch(next);
+        const id = req.params.id;
+        return cubeModel.findById(id)
+            .then(cube => {
+                res.render('details', { cube });
+            })
+            .catch(next);
     },
 
     postCreateCube(req, res, next){
