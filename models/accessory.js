@@ -4,7 +4,6 @@ const accessorySchema = new mongoose.Schema({
     name: String,
     description: String,
     imageURL: String,
-    difficultyLevel: Number,
     Cubes: [mongoose.Schema.Types.ObjectId]
 });
 
