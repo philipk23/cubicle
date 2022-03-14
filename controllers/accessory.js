@@ -32,7 +32,7 @@ module.exports = {
         const cubeId = req.params.id;
         Promise.all([
             cubeModel.findById(cubeId),
-            accessoryModel.find({})
+            accessoryModel.find({ cubes: { $nin: cubeId }})
         ])
             .then(([cube, accessories]) => {
                 res.render('attach-accessory', { cube, accessories });
