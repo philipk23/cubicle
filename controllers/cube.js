@@ -15,14 +15,18 @@ module.exports = {
             query.difficultyLevel.$lte = +to;
         };
 
-        cubeModel.find(query).then((cubes) => {
-            res.render('index', { cubes, search, from, to });
-        }).catch(next);
+        cubeModel.find(query)
+            .populate('accessories')
+            .then((cubes) => {
+                res.render('index', { cubes, search, from, to });
+            })
+            .catch(next);
     },
 
     getCube(req, res, next) {
         const id = req.params.id;
         return cubeModel.findById(id)
+            .populate('accessories')
             .then(cube => {
                 res.render('details', { cube });
             })

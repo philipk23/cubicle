@@ -9,6 +9,8 @@ module.exports = (app) => {
     app.get('/about', function(req, res){
         res.render('about');
     });
+    app.get('/attach/accessory/:id', accessoryController.getAttachAccessory);
+    app.post('/attach/accessory/:id', accessoryController.postAttachAccessory);
     app.get('/create/accessory', accessoryController.getCreateAccessory);
     app.post('/create/accessory', accessoryController.postCreateAccessory);
     app.get('*', function(req, res){

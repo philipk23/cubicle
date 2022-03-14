@@ -1,4 +1,5 @@
 const accessoryModel = require('../models/accessory');
+const cubeModel = require('../models/cube');
 
 module.exports = {
     postCreateAccessory(req, res, next){
@@ -15,6 +16,27 @@ module.exports = {
     },
 
     postAttachAccessory(req, res, next){
+        const cubeId = req.params.id;
+        const accessoryId = req.body.accessory;
+        Promise.all([
+            accessoryModel.updateOne({ _id: accessoryId }, { $push: { cubes: cubeId }}),
+            cubeModel.updateOne({ _id: cubeId }, { $push: { accessories: accessoryId } })
+        ])
+            .then(() => {
+                res.redirect('/details/' + cubeId);
+            })
+            .catch(next);
+    },
 
+    getAttachAccessory(req, res, next){
+        const cubeId = req.params.id;
+        Promise.all([
+            cubeModel.findById(cubeId),
+            accessoryModel.find({})
+        ])
+            .then(([cube, accessories]) => {
+                res.render('attach-accessory', { cube, accessories });
+            })
+            .catch(next);
     }
 }

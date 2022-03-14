@@ -4,7 +4,7 @@ const accessorySchema = new mongoose.Schema({
     name: String,
     description: String,
     imageURL: String,
-    Cubes: [mongoose.Schema.Types.ObjectId]
+    cubes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'cube' }]
 });
 
 module.exports = new mongoose.model('accessory', accessorySchema);
