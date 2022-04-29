@@ -2,6 +2,9 @@ const cubeController = require('../controllers/cube');
 const accessoryController = require('../controllers/accessory');
 const userController = require('../controllers/user');
 const checkAuth = require('../middlewares/check-Auth');
+const userValidators = require('../body-validators/user');
+const handleErrors = require('../middlewares/handle-validation-errors');
+const validationErrorviewName = require('../middlewares/set-validation-error-view-name');
 
 module.exports = (app) => {
     app.get('/', cubeController.getCubes); 
@@ -9,7 +12,13 @@ module.exports = (app) => {
     app.get('/register', checkAuth(false), userController.getRegister);
     
     app.post('/login', checkAuth(false), userController.postLogin);
-    app.post('/register', checkAuth(false), userController.postRegister);
+    app.post('/register',
+        validationErrorviewName('register'),
+        checkAuth(false),
+        userValidators.repeatPasswordCheck,
+        handleErrors.handleValidationErrors ,
+        userController.postRegister
+    );
 
     app.get('/logout', checkAuth(true), userController.getLogout);
 

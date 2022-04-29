@@ -1,11 +1,10 @@
 const userModel = require('../models/user');
 const config = require('../config/config');
 const jwt = require('jsonwebtoken');
-const user = require('../models/user');
 const promisify = require('util').promisify;
 const signToken = promisify(jwt.sign)
-const { jwtSecret, authCookieName } = config;
 
+const { jwtSecret, authCookieName } = config;
 
 module.exports = {
     getRegister(_, res){
@@ -13,10 +12,10 @@ module.exports = {
     },
     postRegister(req, res, next){
         const { username, password, repeatPassword } = req.body;
-        if(password !== repeatPassword){
-            res.render('register', { errorMessage: 'Passwords don\'t match!' });
-            return;
-        };
+        // if(password !== repeatPassword){
+        //     res.render('register', { errorMessage: 'Passwords don\'t match!' });
+        //     return;
+        // };
 
         userModel.create({ username, password })
             .then(() => {
@@ -34,8 +33,8 @@ module.exports = {
             .then(user => Promise.all([user, user ? user.comparePasswords(password) : false]))
             .then(([user, match]) => {
                 if(!match){
-                    res.render('login', { errorMessage: 'Username or password is incorrect!'});
-                    return;
+                    res.render('login', { errorMessage: 'Username or password is incorrect!' });
+                     return;
                 };
                 return signToken({ userId: user._id }, jwtSecret);
             })
